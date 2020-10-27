@@ -1,4 +1,4 @@
-JWT implementation with Spring Security
+# JWT implementation with Spring Security
 
 NB: Check the application.properties and data.sql file before running the code
 
