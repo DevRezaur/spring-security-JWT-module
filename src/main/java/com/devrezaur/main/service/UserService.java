@@ -1,33 +1,43 @@
-package dev.rezaur.jwt.service;
+package com.devrezaur.main.service;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import dev.rezaur.jwt.model.AppUser;
-import dev.rezaur.jwt.model.Role;
-import dev.rezaur.jwt.repository.AppUserRepo;
-import dev.rezaur.jwt.repository.RoleRepo;
+import com.devrezaur.main.model.Role;
+import com.devrezaur.main.model.User;
+import com.devrezaur.main.repository.RoleRepository;
+import com.devrezaur.main.repository.UserRepository;
 
 @Service
 public class UserService {
-
+	
 	@Autowired
-	private AppUserRepo appUserRepo;
+	private UserRepository userRepository;
 	@Autowired
-	private RoleRepo roleRepo;
+	private RoleRepository roleRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	public AppUser findUserByUserName(String userName) {
-		return appUserRepo.findByUserName(userName);
+	public User findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
-	public void saveUser(AppUser appUser) {
-		appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
-		Role userRole = roleRepo.findByRole("ADMIN");
-		appUser.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+	public User saveUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		Role userRole = roleRepository.findByRole("ROLE_USER");
+		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		
+        return user = userRepository.save(user);
+	}
+	
+	public User saveAdmin(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		Role userRole = roleRepository.findByRole("ROLE_ADMIN");
+		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		
+        return user = userRepository.save(user);
 	}
 
 }

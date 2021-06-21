@@ -1,4 +1,4 @@
-package dev.rezaur.jwt.controller;
+package com.devrezaur.main.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,30 +10,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import dev.rezaur.jwt.model.AppUser;
-import dev.rezaur.jwt.model.JwtResponse;
-import dev.rezaur.jwt.util.JwtUtil;
+import com.devrezaur.main.model.User;
+import com.devrezaur.main.payload.JwtResponse;
+import com.devrezaur.main.security.jwt.JwtUtils;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	@Autowired
-	private JwtUtil jwtUtil;
-
+	private JwtUtils jwtUtils;
+	
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody AppUser appUser) throws Exception {
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody User user) throws Exception {
 		Authentication auth = null;
+		
 		try {
-			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(appUser.getUserName(), appUser.getPassword()));
+			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 		} catch (BadCredentialsException e) {
-			throw new Exception("Incorrect username or password", e);
+			return ResponseEntity.badRequest().body("Incorrect credentials!");
 		}
-		final String jwt = jwtUtil.generateToken(auth);
+		
+		final String jwt = jwtUtils.generateToken(auth);
 
 		return ResponseEntity.ok(new JwtResponse(jwt));
 	}
-
 }

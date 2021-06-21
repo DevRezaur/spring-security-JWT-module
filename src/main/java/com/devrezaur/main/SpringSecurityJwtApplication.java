@@ -1,4 +1,4 @@
-package dev.rezaur.jwt;
+package com.devrezaur.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

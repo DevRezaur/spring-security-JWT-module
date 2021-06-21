@@ -1,11 +1,12 @@
-package dev.rezaur.jwt.repository;
+package com.devrezaur.main.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import dev.rezaur.jwt.model.Role;
+import com.devrezaur.main.model.Role;
 
 @Repository
-public interface RoleRepo extends JpaRepository<Role, Long> {
-
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+	
 	Role findByRole(String role);
+
 }

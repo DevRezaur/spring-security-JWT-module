@@ -1,33 +1,41 @@
-package dev.rezaur.jwt.model;
+package com.devrezaur.main.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import org.springframework.stereotype.Component;
 
 @Entity
+@Table(name = "roles")
+@Component
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long roleId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "role_id")
+	private int id;
+
+	@Column(name = "role", unique = true)
 	private String role;
 
 	public Role() {
 
 	}
 
-	public Role(long roleId, String role) {
-		this.roleId = roleId;
+	public Role(int id, String role) {
+		this.id = id;
 		this.role = role;
 	}
 
-	public long getRoleId() {
-		return roleId;
+	public int getId() {
+		return id;
 	}
 
-	public void setRoleId(long roleId) {
-		this.roleId = roleId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getRole() {
@@ -37,4 +45,5 @@ public class Role {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 }

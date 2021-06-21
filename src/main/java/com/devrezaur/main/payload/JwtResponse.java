@@ -1,7 +1,7 @@
-package dev.rezaur.jwt.model;
+package com.devrezaur.main.payload;
 
 public class JwtResponse {
-
+	
 	private final String jwt;
 
 	public JwtResponse(String jwt) {
@@ -11,4 +11,5 @@ public class JwtResponse {
 	public String getJwt() {
 		return jwt;
 	}
+
 }

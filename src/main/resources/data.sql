@@ -1,17 +1,20 @@
-INSERT INTO app_user
-VALUES('rezaur', 'iamadmin');
+INSERT INTO roles
+VALUES(1, 'ROLE_ADMIN');
 
-INSERT INTO app_user
-VALUES('adam', 'iamfaculty');
+INSERT INTO roles
+VALUES(2, 'ROLE_USER');
 
-INSERT INTO role
-VALUES(1, 'ADMIN');
+INSERT INTO users (user_id, fullname, email, password)
+VALUES('101', 'Rezaur Rahman', 'rezaur@gmail.com', 'iamadmin');
 
-INSERT INTO role
-VALUES(2, 'FACULTY');
-
-INSERT INTO user_role
-VALUES('10595', 1);
+INSERT INTO users (user_id, fullname, email, password)
+VALUES('102', 'Sanzida Sultana', 'sanzida@gmail.com', 'iamuser');
 
 INSERT INTO user_role
-VALUES('10597', 2);
+VALUES('101', 1);
+
+INSERT INTO user_role
+VALUES('101', 2);
+
+INSERT INTO user_role
+VALUES('102', 2);
