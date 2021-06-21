@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public class JwtUtil {
 
 	private String SECRET_KEY = "secret";
-	private String ROLES = "";
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -26,7 +25,7 @@ public class JwtUtil {
 
 	@SuppressWarnings("unchecked")
 	public List<String> extractRoles(String token) {
-		return extractClaim(token, claims -> (List<String>) claims.get(ROLES));
+		return extractClaim(token, claims -> (List<String>) claims.get("ROLES"));
 	}
 
 	public Date extractExpiration(String token) {
@@ -50,7 +49,7 @@ public class JwtUtil {
 		final UserDetails user = (UserDetails) auth.getPrincipal();
 		final List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 		final Map<String, Object> claims = new HashMap<>();
-		claims.put(ROLES, roles);
+		claims.put("ROLES", roles);
 		return createToken(claims, user.getUsername());
 	}
 

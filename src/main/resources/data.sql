@@ -1,8 +1,8 @@
 INSERT INTO app_user
-VALUES('10595', 'iamadmin');
+VALUES('rezaur', 'iamadmin');
 
 INSERT INTO app_user
-VALUES('10597', 'iamfaculty');
+VALUES('adam', 'iamfaculty');
 
 INSERT INTO role
 VALUES(1, 'ADMIN');
