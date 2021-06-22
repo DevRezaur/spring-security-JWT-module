@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.devrezaur.main.model.User;
 import com.devrezaur.main.payload.JwtResponse;
 import com.devrezaur.main.security.jwt.JwtUtils;
+import com.devrezaur.main.service.MyUserDetails;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,12 +29,13 @@ public class AuthController {
 		Authentication auth = null;
 		
 		try {
-			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+			auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 		} catch (BadCredentialsException e) {
 			return ResponseEntity.badRequest().body("Incorrect credentials!");
 		}
 		
-		final String jwt = jwtUtils.generateToken(auth);
+		MyUserDetails myUserDetails = (MyUserDetails) auth.getPrincipal();
+		final String jwt = jwtUtils.generateToken(myUserDetails);
 
 		return ResponseEntity.ok(new JwtResponse(jwt));
 	}

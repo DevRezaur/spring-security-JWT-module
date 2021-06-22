@@ -4,11 +4,11 @@ VALUES(1, 'ROLE_ADMIN');
 INSERT INTO roles
 VALUES(2, 'ROLE_USER');
 
-INSERT INTO users (user_id, fullname, email, password)
-VALUES('101', 'Rezaur Rahman', 'rezaur@gmail.com', 'iamadmin');
+INSERT INTO users (user_id, fullname, username, password)
+VALUES('101', 'Rezaur Rahman', 'devrezaur', 'iamadmin');
 
-INSERT INTO users (user_id, fullname, email, password)
-VALUES('102', 'Sanzida Sultana', 'sanzida@gmail.com', 'iamuser');
+INSERT INTO users (user_id, fullname, username, password)
+VALUES('102', 'Sanzida Sultana', 'sanzida', 'iamuser');
 
 INSERT INTO user_role
 VALUES('101', 1);

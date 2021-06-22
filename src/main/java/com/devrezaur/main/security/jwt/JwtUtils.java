@@ -8,10 +8,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import com.devrezaur.main.service.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -31,18 +29,12 @@ public class JwtUtils {
 	@Value("${jwt.jwtExp}")
 	private int JWT_EXP;
 
-	public String generateToken(Authentication auth) {
-		final UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-		final List<String> roles = auth.getAuthorities()
-									.stream()
-									.map(GrantedAuthority::getAuthority)
-									.collect(Collectors.toList());
-
-		final Map<String, Object> claims = new HashMap<>();
+	public String generateToken(MyUserDetails myUserDetails) {
+		List<String> roles = myUserDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
+		Map<String, Object> claims = new HashMap<>();
 		claims.put("ROLES", roles);
 
-		return createToken(claims, userDetails.getUsername());
+		return createToken(claims, myUserDetails.getUsername());
 	}
 
 	private String createToken(Map<String, Object> claims, String subject) {
