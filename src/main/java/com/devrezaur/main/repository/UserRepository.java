@@ -7,8 +7,8 @@ import com.devrezaur.main.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	Boolean existsByUsername(String username);
+	Boolean existsByUsernameIgnoreCase(String username);
 	
-	User findByUsername(String username);
+	User findByUsernameIgnoreCase(String username);
 	
 }

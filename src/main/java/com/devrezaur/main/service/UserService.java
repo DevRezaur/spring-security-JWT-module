@@ -20,7 +20,7 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 
 	public User findUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+		return userRepository.findByUsernameIgnoreCase(username);
 	}
 
 	public User saveUser(User user) {

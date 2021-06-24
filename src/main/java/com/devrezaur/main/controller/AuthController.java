@@ -14,6 +14,7 @@ import com.devrezaur.main.model.User;
 import com.devrezaur.main.payload.JwtResponse;
 import com.devrezaur.main.security.jwt.JwtUtils;
 import com.devrezaur.main.service.MyUserDetails;
+import com.devrezaur.main.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +24,8 @@ public class AuthController {
 	private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtUtils jwtUtils;
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody User user) throws Exception {
@@ -38,5 +41,29 @@ public class AuthController {
 		final String jwt = jwtUtils.generateToken(myUserDetails);
 
 		return ResponseEntity.ok(new JwtResponse(jwt));
+	}
+	
+	@PostMapping("/registerUser")
+	public ResponseEntity<?> registerUser(@RequestBody User user) {
+		User regUser = userService.findUserByUsername(user.getUsername());
+		
+		if(regUser != null)
+			return ResponseEntity.badRequest().body("User already exists!");
+		
+		regUser = userService.saveUser(user);
+		
+		return ResponseEntity.ok().body(regUser);
+	}
+	
+	@PostMapping("/registerAdmin")
+	public ResponseEntity<?> registerAdmin(@RequestBody User user) {
+		User regUser = userService.findUserByUsername(user.getUsername());
+		
+		if(regUser != null)
+			return ResponseEntity.badRequest().body("User already exists!");
+		
+		regUser = userService.saveAdmin(user);
+		
+		return ResponseEntity.ok().body(regUser);
 	}
 }
