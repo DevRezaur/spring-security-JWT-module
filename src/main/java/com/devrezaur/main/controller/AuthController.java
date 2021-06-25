@@ -1,5 +1,7 @@
 package com.devrezaur.main.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,8 +41,9 @@ public class AuthController {
 		
 		MyUserDetails myUserDetails = (MyUserDetails) auth.getPrincipal();
 		final String jwt = jwtUtils.generateToken(myUserDetails);
-
-		return ResponseEntity.ok(new JwtResponse(jwt));
+		List<String> roles = myUserDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
+		
+		return ResponseEntity.ok(new JwtResponse("Bearer", jwt, myUserDetails.getId(), myUserDetails.getFullname(), myUserDetails.getUsername(), roles));
 	}
 	
 	@PostMapping("/registerUser")
@@ -55,15 +58,4 @@ public class AuthController {
 		return ResponseEntity.ok().body(regUser);
 	}
 	
-	@PostMapping("/registerAdmin")
-	public ResponseEntity<?> registerAdmin(@RequestBody User user) {
-		User regUser = userService.findUserByUsername(user.getUsername());
-		
-		if(regUser != null)
-			return ResponseEntity.badRequest().body("User already exists!");
-		
-		regUser = userService.saveAdmin(user);
-		
-		return ResponseEntity.ok().body(regUser);
-	}
 }
